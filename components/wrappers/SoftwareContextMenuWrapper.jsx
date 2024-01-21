@@ -10,7 +10,7 @@ import {
 import {ArrowUpRightSquare} from "lucide-react";
 import {useRouter} from "next/navigation";
 
-export function SoftwareContextMenuWrapper({children, ...props}){
+export default function SoftwareContextMenuWrapper({children, ...props}){
     const software = props.software;
     const router = useRouter();
 
