@@ -9,7 +9,7 @@ export default function Welcome({...props}){
         <div className={"flex h-full"}>
             <div className={"flex flex-col basis-1/2 justify-center items-center"}>
                 <h1 className={"font-black text-7xl"}>Rintaro</h1>
-                <h2 className={"font-medium text-xl"}>Votre application toute en un.</h2>
+                <h2 className={"font-medium text-xl"}>Une application simple, efficace, toute en un.</h2>
             </div>
             <div className={"flex basis-1/2 justify-center items-center"}>
                 <AuthButton session={props.session} providers={props.providers}></AuthButton>
