@@ -27,35 +27,48 @@ import {useRouter} from "next/navigation";
 export default function Converter(){
     const router = useRouter();
     const [files, setFiles] = useState([]);
+
     const handleFiles = (e) => {
         const filesCopy = files.slice();
         if (e.target.files[0]){
             e.target.files[0].id = files.length;
+            e.target.files[0].isConvert = false;
             e.target.files[0].isLoading = false;
 
             filesCopy.push(e.target.files[0]);
             setFiles(filesCopy);
         }
     }
+
+    const addExt = (e, id) => {
+        const filesCopy = files.slice();
+        filesCopy[id].ext = e;
+        setFiles(filesCopy);
+    }
+
     const convertSize = (size) => {
         if (size < 1000000) return (size/1000).toFixed(1)+"Ko";
         else return (size/1000000).toFixed(1)+"Mo";
     }
+
     const convertFile = (id, file) => {
         const filesCopy = files.slice();
         filesCopy[id].isLoading = true;
         setFiles(filesCopy);
 
+        const ext = filesCopy[id].ext;
+
         let data = new FormData();
         data.append("file", file);
-        axios.post("http://valserveur.ovh/convert", data, {headers: {'Content-Type': `multipart/form-data;`,}})
+        data.append("ext", ext)
+        axios.post("http://api.rintaro.fr/convert/index.php", data, {headers: {'Content-Type': `multipart/form-data;`,}})
             .then((response) => {
+                console.log(response);
                 const filesCopy = files.slice();
-                filesCopy[id].convertLink = "http://valserveur.ovh/download?img="+response.data;
+                filesCopy[id].convertLink = response.data;
+                filesCopy[id].isConvert = true;
                 filesCopy[id].isLoading = false;
                 setFiles(filesCopy);
-
-                console.log(response);
             });
     }
 
@@ -68,6 +81,7 @@ export default function Converter(){
                         <TableHead className={"w-1/4"}>Nom</TableHead>
                         <TableHead className={"w-1/4"}>Taille</TableHead>
                         <TableHead className={"w-1/4"}>Type</TableHead>
+                        <TableHead className={"w-1/4"}>Status</TableHead>
                         <TableHead className={"w-1/4"}>Convertir en...</TableHead>
                     </TableRow>
                 </TableHeader>
@@ -77,8 +91,9 @@ export default function Converter(){
                             <TableCell className="font-medium">{file.name}</TableCell>
                             <TableCell>{convertSize(file.size)}</TableCell>
                             <TableCell>{file.type}</TableCell>
+                            <TableCell>{file.isConvert ? "Terminé" : "Prêt"}</TableCell>
                             <TableCell>
-                                <Select>
+                                <Select onValueChange={(e) => addExt(e, file.id)}>
                                     <SelectTrigger className={"w-fit"}>
                                         <SelectValue placeholder="Choisir une extension"/>
                                     </SelectTrigger>
@@ -86,6 +101,8 @@ export default function Converter(){
                                         <SelectGroup>
                                             <SelectLabel>Extensions</SelectLabel>
                                             <SelectItem value="jpg">JPG</SelectItem>
+                                            <SelectItem value="png">PNG</SelectItem>
+                                            <SelectItem value="webp">WEBP</SelectItem>
                                         </SelectGroup>
                                     </SelectContent>
                                 </Select>
@@ -93,7 +110,7 @@ export default function Converter(){
                             <TableCell>
                                 {
                                     file.convertLink ? <Button onClick={() => router.push(file.convertLink)}>Télécharger</Button>
-                                        : <Button disabled={file.isLoading} onClick={() => convertFile(file.id, file)}>Convertir</Button>
+                                        : <Button disabled={(file.isLoading || !file.ext)} onClick={() => convertFile(file.id, file)}>Convertir</Button>
                                 }
                             </TableCell>
                         </TableRow>
