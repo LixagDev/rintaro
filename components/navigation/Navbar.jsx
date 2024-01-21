@@ -58,7 +58,7 @@ export default function Navbar({...props}){
                         <DropdownMenuItem onClick={() => signOut()}>
                             <LogOut className="mr-2 h-4 w-4"/>
                             Se déconnecter
-                            <DropdownMenuShortcut>e</DropdownMenuShortcut>
+                            <DropdownMenuShortcut></DropdownMenuShortcut>
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
