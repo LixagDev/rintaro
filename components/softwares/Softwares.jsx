@@ -1,20 +1,16 @@
 "use client"
-import {Rotate3D, TestTube} from "lucide-react";
 import {
     HoverCard,
     HoverCardContent,
     HoverCardTrigger,
 } from "@/components/ui/hover-card"
 import {useRouter} from "next/navigation";
-import {SoftwareContextMenuWrapper} from "@/components/wrappers/SoftwareContextMenuWrapper";
+import SoftwareContextMenuWrapper from "@/components/wrappers/SoftwareContextMenuWrapper";
+import {SoftwaresData} from "@/data/data";
 
 export default function Softwares(){
     const router = useRouter();
-
-    const softwares = [
-        {id: 0, name: "Konvertissor", description: "Convertissez vos images en l'extension que vous souhaitez.", href: "/convert", logo: <Rotate3D size={40}/>},
-        {id: 1, name: "Test", description: "Description", href: "/tes", logo: <TestTube size={40}/>},
-    ];
+    const softwares = SoftwaresData();
 
     return(
         <div className={"flex flex-wrap justify-center gap-7"}>
