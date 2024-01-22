@@ -1,6 +1,5 @@
 "use client"
 import {Button} from "@/components/ui/button";
-import {Input} from "@/components/ui/input";
 import {
     Table,
     TableBody,
@@ -24,29 +23,18 @@ import {
     DropdownMenuItem,DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import {toast} from "sonner";
-import {useState} from "react";
+import {useCallback, useState} from "react";
 import axios from "axios";
 import FormData from "form-data";
 import {useRouter} from "next/navigation";
 import {DisableContextMenu} from "@/functions/UI";
 import {MoreVertical, Trash2} from "lucide-react";
+import {useDropzone} from "react-dropzone";
 
 export default function Converter(){
     const router = useRouter();
     const [files, setFiles] = useState([]);
     DisableContextMenu();
-
-    const handleFiles = (e) => {
-        const filesCopy = files.slice();
-        if (e.target.files[0]){
-            e.target.files[0].id = files.length;
-            e.target.files[0].isConvert = false;
-            e.target.files[0].isLoading = false;
-
-            filesCopy.push(e.target.files[0]);
-            setFiles(filesCopy);
-        }
-    }
 
     const addExt = (e, id) => {
         const filesCopy = files.slice();
@@ -71,7 +59,6 @@ export default function Converter(){
         data.append("ext", ext)
         axios.post("https://api.rintaro.fr/convert/index.php", data, {headers: {'Content-Type': `multipart/form-data;`,}})
             .then((response) => {
-                console.log(response.data);
                 if (response.data.response === true){
                     const filesCopy = files.slice();
                     filesCopy[id].convertLink = response.data.link;
@@ -87,7 +74,7 @@ export default function Converter(){
                     filesCopy[id].errorText = response.data.message;
                     filesCopy[id].isLoading = false;
                     setFiles(filesCopy);
-                    toast("Il y a une erreur", {
+                    toast("Il y a une erreur !", {
                         description: response.data.message,
                         action: {
                             label: "Ok",
@@ -104,12 +91,25 @@ export default function Converter(){
         setFiles(filesUpdate);
     }
 
+    const onDrop = useCallback(dropFiles => {
+        const filesCopy = files.slice()
+        dropFiles.map((dropFile) => {
+            dropFile.id = filesCopy.length;
+            dropFile.isConvert = false;
+            dropFile.isLoading = false;
+
+            filesCopy.push(dropFile);
+            setFiles(filesCopy);
+        })
+    })
+    const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
+
     return(
         <div className={"flex flex-col gap-4 items-center"}>
             {
                 files.length !== 0 ?
-                    <Table className={"backdrop-blur-sm rounded-xl"}>
-                        <TableHeader>
+                    <Table className={"backdrop-blur-sm border rounded-xl overflow-hidden border-separate border-spacing-0 w-11/12 h-11/12 m-auto"}>
+                        <TableHeader className={"sticky top-0"}>
                             <TableRow>
                                 <TableHead className={"w-1/4"}>Nom</TableHead>
                                 <TableHead className={"w-1/4"}>Taille</TableHead>
@@ -165,7 +165,14 @@ export default function Converter(){
                     </Table>
                     : null
             }
-            <Input onChange={(e) => handleFiles(e)} className={"w-57"} type={"file"}/>
+            <div {...getRootProps()} className={"w-80 h-80 border rounded-xl flex justify-center items-center backdrop-blur-sm p-5"}>
+                <input {...getInputProps()} />
+                {
+                    isDragActive ?
+                        <h2>Nickel !</h2> :
+                        <h2 className={"text-center"}>Glissez et déposez vos images ici ou juste cliquez.</h2>
+                }
+            </div>
         </div>
     );
 }

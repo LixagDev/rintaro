@@ -4,6 +4,7 @@ import WelcomeText from "@/components/WelcomeText";
 import {DisableContextMenu} from "@/functions/UI";
 import Softwares from "@/components/softwares/Softwares";
 import {ThemeToggle} from "@/components/theme/ThemeToggle";
+import SearchMenu from "@/components/SearchMenu";
 
 export default function Home({...props}){
     const session = props.session;
@@ -17,6 +18,7 @@ export default function Home({...props}){
                 <Softwares/>
             </div>
             <ThemeToggle/>
+            <SearchMenu></SearchMenu>
         </>
     );
 }
