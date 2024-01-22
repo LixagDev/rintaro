@@ -39,7 +39,7 @@
       --dot-space: 22.4px;
       min-width: 100%;
       min-height: 100vh;
-      background: linear-gradient(90deg, white, 21px, transparent 1%) 50%, linear-gradient(white, 21px, transparent 1%) 50%, #afafaf;
+      background: linear-gradient(90deg, white, 21px, transparent 1%) 50%, linear-gradient(white, 21px, transparent 1%) 50%, #000000;
       background-size: var(--dot-space) var(--dot-space);
     }
   }
@@ -78,7 +78,7 @@
       --dot-space: 22.4px;
       min-width: 100%;
       min-height: 100vh;
-      background: linear-gradient(90deg, black, 21px, transparent 1%) 50%, linear-gradient(black, 21px, transparent 1%) 50%, #494949;
+      background: linear-gradient(90deg, black, 21px, transparent 1%) 50%, linear-gradient(black, 21px, transparent 1%) 50%, #6c6c6c;
       background-size: var(--dot-space) var(--dot-space);
     }
   }
