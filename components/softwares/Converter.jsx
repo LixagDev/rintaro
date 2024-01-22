@@ -18,12 +18,18 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
 import {toast} from "sonner";
 import {useState} from "react";
 import axios from "axios";
 import FormData from "form-data";
 import {useRouter} from "next/navigation";
 import {DisableContextMenu} from "@/functions/UI";
+import {MoreVertical, Trash2} from "lucide-react";
 
 export default function Converter(){
     const router = useRouter();
@@ -92,11 +98,17 @@ export default function Converter(){
             });
     }
 
+    const deleteFile = (id) => {
+        const filesCopy = files.slice();
+        const filesUpdate = filesCopy.filter((file) => file.id !== id);
+        setFiles(filesUpdate);
+    }
+
     return(
         <div className={"flex flex-col gap-4 items-center"}>
             {
                 files.length !== 0 ?
-                    <Table>
+                    <Table className={"backdrop-blur-sm rounded-xl"}>
                         <TableHeader>
                             <TableRow>
                                 <TableHead className={"w-1/4"}>Nom</TableHead>
@@ -104,11 +116,13 @@ export default function Converter(){
                                 <TableHead className={"w-1/4"}>Type</TableHead>
                                 <TableHead className={"w-1/4"}>Status</TableHead>
                                 <TableHead className={"w-1/4"}>Convertir en...</TableHead>
+                                <TableHead className={"w-1/4"}></TableHead>
+                                <TableHead className={"w-1/4"}></TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
                             {files.map((file) => (
-                                <TableRow key={file.name}>
+                                <TableRow key={file.id}>
                                     <TableCell className="font-medium">{file.name}</TableCell>
                                     <TableCell>{convertSize(file.size)}</TableCell>
                                     <TableCell>{file.type}</TableCell>
@@ -133,6 +147,17 @@ export default function Converter(){
                                             file.convertLink ? <Button onClick={() => router.push(file.convertLink)}>Télécharger</Button>
                                                 : <Button disabled={(file.isLoading || !file.ext)} onClick={() => convertFile(file.id, file)}>Convertir</Button>
                                         }
+                                    </TableCell>
+                                    <TableCell>
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger><MoreVertical></MoreVertical></DropdownMenuTrigger>
+                                            <DropdownMenuContent className={"w-56"}>
+                                                <DropdownMenuItem onClick={() => deleteFile(file.id)}>
+                                                    <Trash2 className="mr-2 h-4 w-4"/>
+                                                    Effacer
+                                                </DropdownMenuItem>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
                                     </TableCell>
                                 </TableRow>
                             ))}
