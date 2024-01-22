@@ -4,8 +4,9 @@ import {
     HoverCardContent,
     HoverCardTrigger,
 } from "@/components/ui/hover-card"
+import {Badge} from "@/components/ui/badge";
 import {useRouter} from "next/navigation";
-import SoftwareContextMenuWrapper from "@/components/wrappers/SoftwareContextMenuWrapper";
+import SoftwareContextMenuWrapper from "@/components/wrappers/context-menu/SoftwareContextMenuWrapper";
 import {SoftwaresData} from "@/data/data";
 
 export default function Softwares(){
@@ -26,13 +27,17 @@ export default function Softwares(){
                                             {software.logo}
                                         </div>
                                         <h2>{software.name}</h2>
+                                        { software.beta ? <Badge>Beta</Badge> : null }
                                     </div>
                                 </HoverCardTrigger>
                                 <HoverCardContent>
                                     <div className={"flex"}>
                                         <div className={"basis-1/3 flex items-center"}>{software.logo}</div>
                                         <div className={"flex flex-col basis-2/3"}>
-                                            <h2 className={"font-bold text-md"}>{software.name}</h2>
+                                            <div className={"flex gap-1"}>
+                                                <h2 className={"font-bold text-md"}>{software.name}</h2>
+                                                { software.beta ? <Badge>Beta</Badge> : null }
+                                            </div>
                                             <h2 className={"text-sm"}>{software.description}</h2>
                                         </div>
                                     </div>
