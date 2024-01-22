@@ -7,14 +7,13 @@ import {
     ContextMenuTrigger,
     ContextMenuLabel
 } from "@/components/ui/context-menu"
-import {useRouter} from "next/navigation";
 
 export default function ConvertContextMenuWrapper({children, ...props}){
     const file = props.file;
 
-    return (
+    return(
         <ContextMenu>
-            <ContextMenuTrigger className={"w-full"}>
+            <ContextMenuTrigger>
                 {children}
             </ContextMenuTrigger>
             <ContextMenuContent className="w-56">
@@ -24,5 +23,5 @@ export default function ConvertContextMenuWrapper({children, ...props}){
                 <ContextMenuSeparator/>
             </ContextMenuContent>
         </ContextMenu>
-    )
+    );
 }
