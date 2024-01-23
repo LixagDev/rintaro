@@ -16,6 +16,7 @@ import {
     SelectTrigger,
     SelectValue
 } from "@/components/ui/select";
+import {DisableContextMenu} from "@/functions/UI";
 
 export default function YoutubeDownloader(){
     const router = useRouter();
@@ -23,6 +24,8 @@ export default function YoutubeDownloader(){
     const [state, setState] = useState({loading: false, finish: false, response: null, downloadLink: null});
     const [videoName, setVideoName] = useState();
     const [ext, setExt] = useState();
+
+    DisableContextMenu();
 
     const download = () => {
         let data = new FormData();
