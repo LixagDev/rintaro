@@ -36,7 +36,6 @@ export default function Softwares(){
                                         <div className={"flex flex-col basis-2/3"}>
                                             <div className={"flex gap-1"}>
                                                 <h2 className={"font-bold text-md"}>{software.name}</h2>
-                                                { software.beta ? <Badge>Beta</Badge> : null }
                                             </div>
                                             <h2 className={"text-sm"}>{software.description}</h2>
                                         </div>
