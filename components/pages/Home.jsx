@@ -18,7 +18,7 @@ export default function Home({...props}){
                 <Softwares/>
             </div>
             <ThemeToggle/>
-            <SearchMenu></SearchMenu>
+            <SearchMenu/>
         </>
     );
 }
