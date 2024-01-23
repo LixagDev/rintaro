@@ -4,6 +4,7 @@ import {ThemeToggle} from "@/components/theme/ThemeToggle";
 import Converter from "@/components/softwares/Converter";
 import {SoftwaresData} from "@/data/data";
 import SoftwareTitle from "@/components/softwares/SoftwareTitle";
+import SearchMenu from "@/components/SearchMenu";
 
 export default function Convert({...props}){
     const session = props.session;
@@ -18,6 +19,7 @@ export default function Convert({...props}){
                 <Converter/>
             </div>
             <ThemeToggle/>
+            <SearchMenu/>
         </>
     )
 }
