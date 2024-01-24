@@ -16,16 +16,13 @@ import {
     SelectTrigger,
     SelectValue
 } from "@/components/ui/select";
-import {DisableContextMenu} from "@/functions/UI";
 
 export default function YoutubeDownloader(){
     const router = useRouter();
     const [url, setUrl] = useState();
     const [state, setState] = useState({loading: false, finish: false, response: null, downloadLink: null});
-    const [videoName, setVideoName] = useState();
+    const [output, setOutput] = useState({videoName: null});
     const [ext, setExt] = useState();
-
-    DisableContextMenu();
 
     const download = () => {
         let data = new FormData();
@@ -34,9 +31,10 @@ export default function YoutubeDownloader(){
         setState({loading: true, finish: false, response: null, downloadLink: null});
         axios.post("https://api.rintaro.fr/youtube-dl/index.php", data)
             .then((response) =>{
+                console.log(response.data)
                 if (response.data.response === true){
                     setState({loading: false, finish: true, response: response.data.response, downloadLink: response.data.link});
-                    setVideoName(response.data.videoName);
+                    setOutput({videoName: response.data.videoName});
                 }
                 else{
                     setState({loading: false, finish: true, response: response.data.response, downloadLink: null});
@@ -76,10 +74,10 @@ export default function YoutubeDownloader(){
                 <Button variant={"destructive"} disabled={state.loading} onClick={() => {
                     setState({loading: false, finish: false, response: null, downloadLink: null});
                     setUrl("");
-                    setVideoName(null);
+                    setOutput({videoName: null});
                 }}><Trash2/></Button>
             </div>
-            <h2 className={"font-bold text-xl text-center"}>{videoName}</h2>
+            <h2 className={"font-bold text-xl text-center"}>{output.videoName}</h2>
         </>
     );
 }
