@@ -5,11 +5,14 @@ import SoftwareTitle from "@/components/softwares/SoftwareTitle";
 import {SoftwaresData} from "@/data/data";
 import SearchMenu from "@/components/SearchMenu";
 import YoutubeDownloader from "@/components/softwares/YoutubeDownloader";
+import {DisableContextMenu} from "@/functions/UI";
 
 export default function Youtube({...props}){
     const session = props.session;
     const actualSoftwareName = SoftwaresData()[1].name;
     const actualSoftwareDescription = SoftwaresData()[1].description;
+
+    DisableContextMenu();
 
     return(
         <>
