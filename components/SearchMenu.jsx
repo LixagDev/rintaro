@@ -1,11 +1,6 @@
 "use client"
 import {useEffect, useState} from "react";
 import {
-    Settings,
-    User,
-} from "lucide-react";
-
-import {
     CommandDialog,
     CommandEmpty,
     CommandGroup,
@@ -15,10 +10,11 @@ import {
     CommandSeparator,
 } from "@/components/ui/command";
 import {useRouter} from "next/navigation";
-import {SoftwaresData} from "@/data/data";
+import {SoftwaresData, MenuItemsData} from "@/data/data";
 
 export default function SearchMenu() {
     const softwares = SoftwaresData();
+    const menuItems = MenuItemsData();
     const router = useRouter();
     const [open, setOpen] = useState(false);
 
@@ -54,15 +50,19 @@ export default function SearchMenu() {
                     }
                 </CommandGroup>
                 <CommandSeparator />
-                <CommandGroup heading="Interface">
-                    <CommandItem>
-                        <User className="mr-2 h-4 w-4" />
-                        <span>Profil</span>
-                    </CommandItem>
-                    <CommandItem>
-                        <Settings className="mr-2 h-4 w-4" />
-                        <span>Paramètres</span>
-                    </CommandItem>
+                <CommandGroup heading="Menu">
+                    {
+                        menuItems.map((item) => {
+                            return(
+                                <CommandItem>
+                                    <div className="flex justify-center items-center mr-2 h-4 w-4">
+                                        {item.logo}
+                                    </div>
+                                    <span>{item.name}</span>
+                                </CommandItem>
+                            );
+                        })
+                    }
                 </CommandGroup>
             </CommandList>
         </CommandDialog>
