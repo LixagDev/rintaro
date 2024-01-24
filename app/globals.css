@@ -1,84 +1,65 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
+
 @layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
- 
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
- 
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
- 
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
- 
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
- 
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
- 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 10% 3.9%;
- 
+  :root{
+    --background: 227 19% 100%;
+    --foreground: 227 5% 10%;
+    --card: 227 19% 100%;
+    --card-foreground: 227 5% 15%;
+    --popover: 227 19% 100%;
+    --popover-foreground: 227 95% 10%;
+    --primary: 227 100% 82%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 227 19% 90%;
+    --secondary-foreground: 0 0% 0%;
+    --muted: 189 19% 95%;
+    --muted-foreground: 227 5% 40%;
+    --accent: 189 19% 90%;
+    --accent-foreground: 227 5% 15%;
+    --destructive: 0 50% 50%;
+    --destructive-foreground: 227 5% 100%;
+    --border: 227 20% 82%;
+    --input: 227 20% 50%;
+    --ring: 227 100% 82%;
     --radius: 0.5rem;
-
     body{
       --dot-size: 1px;
       --dot-space: 22.4px;
       min-width: 100%;
       min-height: 100vh;
-      background: linear-gradient(90deg, white, 21px, transparent 1%) 50%, linear-gradient(white, 21px, transparent 1%) 50%, #000000;
+      background: linear-gradient(90deg, hsl(var(--background)), 21px, transparent 1%) 50%, linear-gradient(hsl(var(--background)), 21px, transparent 1%) 50%, hsl(var(--primary));
       background-size: var(--dot-space) var(--dot-space);
     }
   }
- 
-  .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
- 
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
- 
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
- 
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
- 
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
- 
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
- 
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
- 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
- 
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
-
+  .dark  {
+    --background: 227 19% 10%;
+    --foreground: 227 5% 100%;
+    --card: 227 19% 10%;
+    --card-foreground: 227 5% 100%;
+    --popover: 227 19% 5%;
+    --popover-foreground: 227 5% 100%;
+    --primary: 227 100% 82%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 227 19% 20%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 189 19% 25%;
+    --muted-foreground: 227 5% 65%;
+    --accent: 189 19% 25%;
+    --accent-foreground: 227 5% 95%;
+    --destructive: 0 50% 50%;
+    --destructive-foreground: 227 5% 100%;
+    --border: 227 20% 50%;
+    --input: 227 20% 50%;
+    --ring: 227 100% 82%;
+    --radius: 0.5rem;
     body{
       --dot-size: 1px;
       --dot-space: 22.4px;
       min-width: 100%;
       min-height: 100vh;
-      background: linear-gradient(90deg, black, 21px, transparent 1%) 50%, linear-gradient(black, 21px, transparent 1%) 50%, #6c6c6c;
+      background: linear-gradient(90deg, hsl(var(--background)), 21px, transparent 1%) 50%, linear-gradient(hsl(var(--background)), 21px, transparent 1%) 50%, hsl(var(--border));
       background-size: var(--dot-space) var(--dot-space);
     }
   }
