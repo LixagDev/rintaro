@@ -11,8 +11,8 @@ export function SoftwaresData(){
 
 export function MenuItemsData(){
     const menuItems = [
-        {name: "Profil", href: "/profil", logo: <User/>, disabled: true},
-        {name: "Paramètres", href: "/settings", logo: <Settings/>, disabled: true}
+        {id: 0, name: "Profil", href: "/profil", logo: <User/>, disabled: true},
+        {id: 1, name: "Paramètres", href: "/settings", logo: <Settings/>, disabled: false}
     ]
 
     return menuItems;
