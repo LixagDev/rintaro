@@ -15,15 +15,15 @@ import {
 import {
     LogOut,
     Github,
-    User,
-    Settings
 } from "lucide-react";
 import {signOut} from "next-auth/react";
 import {useRouter} from "next/navigation";
+import {MenuItemsData} from "@/data/data";
 
 export default function Navbar({...props}){
     const session = props.session;
     const router = useRouter();
+    const menuItems = MenuItemsData();
 
     return(
         <div className={"flex sticky p-4 items-center backdrop-blur-sm border-b"}>
@@ -41,14 +41,18 @@ export default function Navbar({...props}){
                     <DropdownMenuContent className={"w-56"}>
                         <DropdownMenuLabel>{session.user.name}</DropdownMenuLabel>
                         <DropdownMenuSeparator/>
-                        <DropdownMenuItem disabled>
-                            <User className="mr-2 h-4 w-4"/>
-                            Profil
-                        </DropdownMenuItem>
-                        <DropdownMenuItem disabled>
-                            <Settings className="mr-2 h-4 w-4"/>
-                            Paramètres
-                        </DropdownMenuItem>
+                        {
+                            menuItems.map((item) => {
+                                return(
+                                    <DropdownMenuItem disabled={item.disabled}>
+                                        <div className="flex justify-center items-center mr-2 h-4 w-4">
+                                            {item.logo}
+                                        </div>
+                                        {item.name}
+                                    </DropdownMenuItem>
+                                );
+                            })
+                        }
                         <DropdownMenuSeparator/>
                         <DropdownMenuItem onClick={() => router.push("https://github.com/LixagDev/rintaro")}>
                             <Github className="mr-2 h-4 w-4"/>
