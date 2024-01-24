@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/hover-card"
 import {Badge} from "@/components/ui/badge";
 import {useRouter} from "next/navigation";
-import SoftwareContextMenuWrapper from "@/components/wrappers/context-menu/SoftwareContextMenuWrapper";
+import SoftwareContextMenuWrapper from "@/components/wrappers/Context-Menu/SoftwareContextMenuWrapper";
 import {SoftwaresData} from "@/data/data";
 
 export default function Softwares(){
