@@ -14,18 +14,16 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {
     LogOut,
-    Github,
+    Github, User, Settings,
 } from "lucide-react";
 import {signOut} from "next-auth/react";
 import {useRouter} from "next/navigation";
-import {MenuItemsData} from "@/data/data";
 import SettingsDialog from "@/components/SettingsDialog";
 import {useState} from "react";
 
 export default function Navbar({...props}){
     const session = props.session;
     const router = useRouter();
-    const menuItems = MenuItemsData();
     const [settingsDialogOpen, setSettingsDialogOpen] = useState(false);
 
     return(
@@ -47,18 +45,14 @@ export default function Navbar({...props}){
                         <DropdownMenuContent className={"w-56"}>
                             <DropdownMenuLabel>{session.user.name}</DropdownMenuLabel>
                             <DropdownMenuSeparator/>
-                            {
-                                menuItems.map((item) => {
-                                    return (
-                                        <DropdownMenuItem onClick={item.id === 1 ? () => setSettingsDialogOpen(true) : null} disabled={item.disabled}>
-                                            <div className="flex justify-center items-center mr-2 h-4 w-4">
-                                                {item.logo}
-                                            </div>
-                                            {item.name}
-                                        </DropdownMenuItem>
-                                    );
-                                })
-                            }
+                            <DropdownMenuItem>
+                                <User className="mr-2 h-4 w-4"/>
+                                Profil
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>
+                                <Settings className="mr-2 h-4 w-4"/>
+                                Paramètres
+                            </DropdownMenuItem>
                             <DropdownMenuSeparator/>
                             <DropdownMenuItem onClick={() => router.push("https://github.com/LixagDev/rintaro")}>
                                 <Github className="mr-2 h-4 w-4"/>
