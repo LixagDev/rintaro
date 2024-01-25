@@ -17,18 +17,13 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu";
 import {toast} from "sonner";
 import {useCallback, useState} from "react";
 import axios from "axios";
 import FormData from "form-data";
 import {useRouter} from "next/navigation";
 import {DisableContextMenu} from "@/functions/UI";
-import {MoreVertical, Trash2} from "lucide-react";
+import {Trash2} from "lucide-react";
 import {useDropzone} from "react-dropzone";
 
 export default function Converter(){
@@ -108,7 +103,7 @@ export default function Converter(){
         <div className={"flex flex-col gap-4 items-center"}>
             {
                 files.length !== 0 ?
-                    <Table className={"backdrop-blur-sm border rounded-xl overflow-hidden border-separate border-spacing-0 w-11/12 h-11/12 m-auto"}>
+                    <Table className={"backdrop-blur-sm border rounded-xl overflow-hidden border-separate border-spacing-0"}>
                         <TableHeader className={"sticky top-0"}>
                             <TableRow>
                                 <TableHead className={"w-1/4"}>Nom</TableHead>
@@ -149,15 +144,7 @@ export default function Converter(){
                                         }
                                     </TableCell>
                                     <TableCell>
-                                        <DropdownMenu>
-                                            <DropdownMenuTrigger><MoreVertical></MoreVertical></DropdownMenuTrigger>
-                                            <DropdownMenuContent className={"w-56"}>
-                                                <DropdownMenuItem onClick={() => deleteFile(file.id)}>
-                                                    <Trash2 className="mr-2 h-4 w-4"/>
-                                                    Effacer
-                                                </DropdownMenuItem>
-                                            </DropdownMenuContent>
-                                        </DropdownMenu>
+                                        <Button variant={"destructive"} onClick={() => deleteFile(file.id)}><Trash2/></Button>
                                     </TableCell>
                                 </TableRow>
                             ))}
