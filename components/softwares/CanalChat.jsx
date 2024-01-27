@@ -4,10 +4,8 @@ import {Input} from "@/components/ui/input";
 import {useEffect, useRef, useState} from "react";
 import {sendChat} from "@/functions/DataManager";
 import {io} from "socket.io-client";
-import {useRouter} from "next/navigation";
 
 export default function CanalChat({...props}){
-    const router = useRouter();
     const socket = io("https://api.rintaro.fr:8080")
     const session = props.session;
     const [chats, setChats] = useState(props.chats);
@@ -16,17 +14,29 @@ export default function CanalChat({...props}){
 
     useEffect( () => {
         chat.current.scrollTo({top: chat.current.scrollHeight});
+        socket.on("chat",  async (chatSocket) => {
+            if (session.user.id !== chatSocket.user.id){
+                console.log(chatSocket)
+                let chatsCopy = await chats.slice();
+                await chatsCopy.push({
+                    id: chatSocket.id,
+                    content: chatSocket.content,
+                    created_at: new Date(chatSocket.created_at).getTime(),
+                    user: {
+                        id: chatSocket.user.id,
+                        name: chatSocket.user.name,
+                        image: chatSocket.user.image,
+                    },
+                });
+                await setChats(chatsCopy);
+                await chat.current.scrollTo({top: chat.current.scrollHeight, behavior: "smooth"});
+                await console.log(chats)
+            }
+            else{
+                console.log("non c toi")
+            }
+        })
     }, [chats]);
-
-    socket.on("chat",  async (chatSocket) => {
-        if (session.user.id !== chatSocket.user.id){
-            console.log(chatSocket)
-            router.refresh();
-        }
-        else{
-            console.log("non c toi")
-        }
-    })
 
     const handleSubmit = async (e) => {
         e.preventDefault();
