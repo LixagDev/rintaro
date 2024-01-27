@@ -6,7 +6,7 @@ import {sendChat} from "@/functions/DataManager";
 import {io} from "socket.io-client";
 
 export default function CanalChat({...props}){
-    const socket = io("http://api.rintaro.fr:8080")
+    const socket = io("https://api.rintaro.fr:8080")
     const session = props.session;
     const [chats, setChats] = useState(props.chats);
     const chat = useRef();
