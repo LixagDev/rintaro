@@ -16,16 +16,17 @@ export default function CanalChat({...props}){
 
     useEffect( () => {
         chat.current.scrollTo({top: chat.current.scrollHeight});
-        socket.on("chat",  async (chatSocket) => {
-            if (session.user.id !== chatSocket.user.id){
-                console.log(chatSocket)
-                router.refresh();
-            }
-            else{
-                console.log("non c toi")
-            }
-        })
     }, [chats]);
+
+    socket.on("chat",  async (chatSocket) => {
+        if (session.user.id !== chatSocket.user.id){
+            console.log(chatSocket)
+            router.refresh();
+        }
+        else{
+            console.log("non c toi")
+        }
+    })
 
     const handleSubmit = async (e) => {
         e.preventDefault();
