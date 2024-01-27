@@ -1,9 +1,8 @@
 "use client"
 import WelcomeText from "@/components/WelcomeText";
-import {DisableContextMenu} from "@/functions/UI";
+import DisableContextMenu from "@/functions/DisableContextMenu";
 import Softwares from "@/components/softwares/Softwares";
 import {ThemeToggle} from "@/components/theme/ThemeToggle";
-import SearchMenu from "@/components/SearchMenu";
 import LeftMenu from "@/components/navigation/LeftMenu";
 import Title from "@/components/Title"
 
@@ -25,7 +24,6 @@ export default function Home({...props}){
                 </div>
             </div>
             <ThemeToggle/>
-            <SearchMenu/>
         </>
     );
 }

@@ -2,9 +2,8 @@
 import {ThemeToggle} from "@/components/theme/ThemeToggle";
 import SoftwareTitle from "@/components/softwares/SoftwareTitle";
 import {SoftwaresData} from "@/data/data";
-import SearchMenu from "@/components/SearchMenu";
 import YoutubeDownloader from "@/components/softwares/YoutubeDownloader";
-import {DisableContextMenu} from "@/functions/UI";
+import DisableContextMenu from "@/functions/DisableContextMenu";
 import LeftMenu from "@/components/navigation/LeftMenu";
 import Title from "@/components/Title";
 
@@ -30,7 +29,6 @@ export default function Youtube({...props}){
                 </div>
             </div>
             <ThemeToggle/>
-            <SearchMenu/>
         </>
     );
 }

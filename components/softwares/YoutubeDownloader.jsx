@@ -31,7 +31,6 @@ export default function YoutubeDownloader(){
         setState({loading: true, finish: false, response: null, downloadLink: null});
         axios.post("https://api.rintaro.fr/youtube-dl/index.php", data)
             .then((response) =>{
-                console.log(response.data)
                 if (response.data.response === true){
                     setState({loading: false, finish: true, response: response.data.response, downloadLink: response.data.link});
                     setOutput({videoName: response.data.videoName});
@@ -57,7 +56,7 @@ export default function YoutubeDownloader(){
     }
 
     return (
-        <div className={"border p-3 flex xl:w-2/5 gap-3 w-2/3 backdrop-blur-sm ml-auto mr-auto rounded-xl"}>
+        <div className={"border p-3 flex gap-3 w-2/3 backdrop-blur-sm ml-auto mr-auto rounded-xl"}>
             <Input type="email" placeholder="https://www.youtube.fr/watch?=abcd1234" value={url}
                    onChange={(e) => setUrl(e.target.value)}/>
             <Select onValueChange={(e) => setExt(e)}>

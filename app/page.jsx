@@ -3,10 +3,17 @@ import {authOptions} from "@/pages/api/auth/[...nextauth]";
 import {getProviders} from "next-auth/react";
 import Welcome from "@/components/pages/Welcome";
 import Home from "@/components/pages/Home";
+import {init} from "@/functions/DataManager";
+import {PrismaClient} from "@prisma/client";
+const prisma = new PrismaClient();
+
 export default async function index(){
-    const session = await getServerSession(authOptions);
+    let session = await getServerSession(authOptions);
     const providers = await getProviders();
 
-    if (!session) return <Welcome session={session} providers={providers}/>;
-    else return <Home session={session}/>;
+    if (session){
+        session = await init(session);
+        return <Home session={session}/>;
+    }
+    else return <Welcome providers={providers}/>
 }

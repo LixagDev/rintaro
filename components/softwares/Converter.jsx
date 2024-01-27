@@ -22,14 +22,14 @@ import {useCallback, useState} from "react";
 import axios from "axios";
 import FormData from "form-data";
 import {useRouter} from "next/navigation";
-import {DisableContextMenu} from "@/functions/UI";
 import {Trash2} from "lucide-react";
 import {useDropzone} from "react-dropzone";
+import {UpdateImageConvertStat} from "@/functions/DataManager";
 
-export default function Converter(){
+export default function Converter({...props}){
+    const session = props.session;
     const router = useRouter();
     const [files, setFiles] = useState([]);
-    DisableContextMenu();
 
     const addExt = (e, id) => {
         const filesCopy = files.slice();
@@ -53,13 +53,14 @@ export default function Converter(){
         data.append("file", file);
         data.append("ext", ext)
         axios.post("https://api.rintaro.fr/convert/index.php", data, {headers: {'Content-Type': `multipart/form-data;`,}})
-            .then((response) => {
+            .then(async (response) => {
                 if (response.data.response === true){
                     const filesCopy = files.slice();
                     filesCopy[id].convertLink = response.data.link;
                     filesCopy[id].isConvert = true;
                     filesCopy[id].isLoading = false;
                     setFiles(filesCopy);
+                    await UpdateImageConvertStat(session);
                 }
                 else{
                     const filesCopy = files.slice();

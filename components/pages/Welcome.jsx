@@ -1,6 +1,6 @@
 "use client"
 import AuthButton from "@/components/AuthButton";
-import {DisableContextMenu} from "@/functions/UI";
+import DisableContextMenu from "@/functions/DisableContextMenu";
 import {ThemeToggle} from "@/components/theme/ThemeToggle";
 
 export default function Welcome({...props}){
@@ -14,7 +14,7 @@ export default function Welcome({...props}){
                     <h2 className={"font-medium text-xl"}>Une application simple, efficace, toute en un.</h2>
                 </div>
                 <div className={"flex basis-1/2 justify-center items-center"}>
-                    <AuthButton session={props.session} providers={props.providers}></AuthButton>
+                    <AuthButton providers={props.providers}></AuthButton>
                 </div>
             </div>
             <ThemeToggle/>

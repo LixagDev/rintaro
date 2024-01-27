@@ -1,10 +1,12 @@
 "use client"
 import {Avatar, AvatarImage, AvatarFallback} from "@/components/ui/avatar";
 import MenuItem from "@/components/ui/menu-item";
-import {Settings, User, Github, LogOut} from "lucide-react";
+import {Settings, User, Github, LogOut, Home} from "lucide-react";
 import {useRouter} from "next/navigation";
 import {signOut} from "next-auth/react";
 import {SoftwaresData} from "@/data/data";
+import {Separator} from "@/components/ui/separator";
+import {Badge} from "@/components/ui/badge";
 
 export default function LeftMenu({...props}){
     const router = useRouter();
@@ -26,6 +28,8 @@ export default function LeftMenu({...props}){
                 </div>
             </div>
             <div className={"flex flex-col justify-center basis-1/3"}>
+                <MenuItem onClick={() => router.push("/")} icon={<Home className={"w-4 mr-1"}/>}>Accueil</MenuItem>
+                <Separator/>
                 {
                     softwares.map((software) => {
                         return(
