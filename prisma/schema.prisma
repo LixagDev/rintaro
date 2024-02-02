@@ -43,7 +43,6 @@ model User {
   created_at    DateTime  @default(now())
   accounts      Account[]
   sessions      Session[]
-  chats         Chat[]
 }
 
 model VerificationToken {
@@ -57,12 +56,4 @@ model Stat {
   userId       String @unique
   imageConvert Int    @default(0)
   youtubeDl    Int    @default(0)
-}
-
-model Chat {
-  id         String   @id @default(uuid())
-  userId     String
-  user       User     @relation(fields: [userId], references: [id])
-  content    String   @db.LongText
-  created_at DateTime @default(now())
 }
