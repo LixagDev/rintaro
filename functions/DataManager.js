@@ -60,31 +60,3 @@ export async function UpdateImageConvertStat(session){
 }
 
 //Faire update stats pour le download youtube
-
-export async function getChats(){
-    const chats = await prisma.chat.findMany({
-        select:{
-            id: true,
-            userId: true,
-            user: true,
-            content: true,
-            created_at: true,
-        },
-        orderBy:{
-            created_at: "asc"
-        }
-    });
-    await prisma.$disconnect();
-    return chats;
-}
-
-export async function sendChat(session, content){
-    const newChat = await prisma.chat.create({
-        data:{
-            userId: session.user.id,
-            content: content,
-        }
-    });
-    await prisma.$disconnect();
-    return newChat;
-}

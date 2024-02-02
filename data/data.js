@@ -1,4 +1,4 @@
-import {RefreshCw, Youtube, MessagesSquare} from "lucide-react";
+import {RefreshCw, Youtube} from "lucide-react";
 
 export function SoftwaresData() {
     const softwares = [
@@ -16,14 +16,6 @@ export function SoftwaresData() {
             description: "Téléchargez vos videos Youtube au format MP4 ou WEBM.",
             href: "/youtube-dl",
             logo: <Youtube className={"w-4 mr-1"}/>,
-            beta: false
-        },
-        {
-            id: 2,
-            name: "Canal",
-            description: "Canal est un lieu de discussion pour les membres de Rintaro.",
-            href: "/canal",
-            logo: <MessagesSquare className={"w-4 mr-1"}/>,
             beta: false
         },
     ];
