@@ -6,6 +6,7 @@ import {useRouter} from "next/navigation";
 import {signOut} from "next-auth/react";
 import {SoftwaresData} from "@/data/data";
 import {Separator} from "@/components/ui/separator";
+import {Badge} from "@/components/ui/badge";
 
 export default function LeftMenu({...props}){
     const router = useRouter();
@@ -32,7 +33,7 @@ export default function LeftMenu({...props}){
                 {
                     softwares.map((software) => {
                         return(
-                            <MenuItem onClick={() => router.push(software.href)} icon={software.logo}>{software.name}</MenuItem>
+                            <MenuItem onClick={() => router.push(software.href)} icon={software.logo}>{software.name} {software.beta ? <Badge>Beta</Badge> : null}</MenuItem>
                         );
                     })
                 }
