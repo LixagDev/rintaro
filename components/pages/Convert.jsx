@@ -5,15 +5,12 @@ import {SoftwaresData} from "@/data/data";
 import SoftwareTitle from "@/components/softwares/SoftwareTitle";
 import LeftMenu from "@/components/navigation/LeftMenu";
 import Title from "@/components/Title";
-import DisableContextMenu from "@/functions/DisableContextMenu";
 
 export default function Convert({...props}){
     const session = props.session;
     const actualSoftwareName = SoftwaresData()[0].name;
     const actualSoftwareDescription = SoftwaresData()[0].description;
 
-    DisableContextMenu();
-    
     return(
         <>
             <div className={"lg:flex h-full hidden"}>

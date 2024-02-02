@@ -6,7 +6,6 @@ import {useRouter} from "next/navigation";
 import {signOut} from "next-auth/react";
 import {SoftwaresData} from "@/data/data";
 import {Separator} from "@/components/ui/separator";
-import {Badge} from "@/components/ui/badge";
 
 export default function LeftMenu({...props}){
     const router = useRouter();
@@ -42,7 +41,7 @@ export default function LeftMenu({...props}){
                 <MenuItem onClick={() => signOut()} icon={<LogOut className={"w-4 mr-1"}/>}>Se déconnecter</MenuItem>
                 <MenuItem icon={<Settings className={"w-4 mr-1"}/>}>Paramètres</MenuItem>
                 <MenuItem onClick={() => router.push("https://github.com/LixagDev/rintaro")} icon={<Github className={"w-4 mr-1"}/>}>GitHub</MenuItem>
-                <MenuItem icon={<User className={"w-4 mr-1"}/>}>Profil</MenuItem>
+                <MenuItem onClick={() => router.push(`/profile/${session.user.name}`)} icon={<User className={"w-4 mr-1"}/>}>Profil</MenuItem>
             </div>
         </div>
     )

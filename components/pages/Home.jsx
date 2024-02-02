@@ -1,14 +1,11 @@
 "use client"
 import WelcomeText from "@/components/WelcomeText";
-import DisableContextMenu from "@/functions/DisableContextMenu";
-import Softwares from "@/components/softwares/Softwares";
 import {ThemeToggle} from "@/components/theme/ThemeToggle";
 import LeftMenu from "@/components/navigation/LeftMenu";
 import Title from "@/components/Title"
 
 export default function Home({...props}){
     const session = props.session;
-    DisableContextMenu();
 
     return(
         <>

@@ -1,11 +1,8 @@
 "use client"
 import AuthButton from "@/components/AuthButton";
-import DisableContextMenu from "@/functions/DisableContextMenu";
 import {ThemeToggle} from "@/components/theme/ThemeToggle";
 
 export default function Welcome({...props}){
-    DisableContextMenu();
-
     return(
         <>
             <div className={"flex h-full"}>
