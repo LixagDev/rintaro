@@ -20,6 +20,7 @@ import {
 export default function YoutubeDownloader(){
     const router = useRouter();
     const [url, setUrl] = useState();
+    const [isPlaylist, setIsPlaylist] = useState();
     const [state, setState] = useState({loading: false, finish: false, response: null, downloadLink: null});
     const [output, setOutput] = useState({videoName: null});
     const [ext, setExt] = useState();
@@ -55,32 +56,46 @@ export default function YoutubeDownloader(){
             })
     }
 
+    const write = (e) => {
+        let text = e.target.value;
+        if (text.includes("&list=")) setIsPlaylist(true);
+        else setIsPlaylist(false);
+        setUrl(text);
+    }
+
     return (
-        <div className={"border p-3 flex gap-3 w-2/3 backdrop-blur-sm ml-auto mr-auto rounded-xl"}>
-            <Input type="email" placeholder="https://www.youtube.fr/watch?=abcd1234" value={url}
-                   onChange={(e) => setUrl(e.target.value)}/>
-            <Select onValueChange={(e) => setExt(e)}>
-                <SelectTrigger className={"w-fit"}>
-                    <SelectValue placeholder="Choisir une extension"/>
-                </SelectTrigger>
-                <SelectContent>
-                    <SelectGroup>
-                        <SelectLabel>Format</SelectLabel>
-                        <SelectItem value="mp4, m4a">mp4</SelectItem>
-                        <SelectItem value="webm, webm">webm</SelectItem>
-                    </SelectGroup>
-                </SelectContent>
-            </Select>
+        <>
+            <div className={"border p-3 flex gap-3 w-2/3 backdrop-blur-sm ml-auto mr-auto rounded-xl"}>
+                <Input type="email" placeholder="https://www.youtube.fr/watch?=abcd1234" value={url}
+                       onChange={(e) => write(e)}/>
+                <Select onValueChange={(e) => setExt(e)}>
+                    <SelectTrigger className={"w-fit"}>
+                        <SelectValue placeholder="Choisir une extension"/>
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectGroup>
+                            <SelectLabel>Format</SelectLabel>
+                            <SelectItem disabled={true} value="mp3, mp3">mp3</SelectItem>
+                            <SelectItem value="mp4, m4a">mp4</SelectItem>
+                            <SelectItem value="webm, webm">webm</SelectItem>
+                        </SelectGroup>
+                    </SelectContent>
+                </Select>
+                {
+                    state.finish && state.response && state.downloadLink ?
+                        <Button onClick={() => router.push(state.downloadLink)}>Télécharger</Button> :
+                        <Button disabled={(!url || state.loading || !ext || isPlaylist)}
+                                onClick={download}>Convertir</Button>
+                }
+                <Button variant={"destructive"} disabled={state.loading} onClick={() => {
+                    setState({loading: false, finish: false, response: null, downloadLink: null});
+                    setUrl("");
+                    setOutput({videoName: null});
+                }}><Trash2/></Button>
+            </div>
             {
-                state.finish && state.response && state.downloadLink ?
-                    <Button onClick={() => router.push(state.downloadLink)}>Télécharger</Button> :
-                    <Button disabled={(!url || state.loading || !ext)} onClick={download}>Convertir</Button>
+                isPlaylist ? <span className={"text-destructive ml-auto mr-auto"}>Cette vidéo provient d'une playlist !</span> : null
             }
-            <Button variant={"destructive"} disabled={state.loading} onClick={() => {
-                setState({loading: false, finish: false, response: null, downloadLink: null});
-                setUrl("");
-                setOutput({videoName: null});
-            }}><Trash2/></Button>
-        </div>
+        </>
     );
 }
