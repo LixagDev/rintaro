@@ -1,6 +1,6 @@
 import "./globals.css";
 import {ThemeProvider} from "@/components/theme/Theme-Provider";
-import { Toaster } from "@/components/ui/sonner"
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata = {
     title: "Rintaro",
