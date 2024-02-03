@@ -2,7 +2,8 @@
 import WelcomeText from "@/components/WelcomeText";
 import {ThemeToggle} from "@/components/theme/ThemeToggle";
 import LeftMenu from "@/components/navigation/LeftMenu";
-import Title from "@/components/Title"
+import Title from "@/components/Title";
+import Debug from "@/components/Debug";
 
 export default function Home({...props}){
     const session = props.session;
@@ -17,6 +18,7 @@ export default function Home({...props}){
                     <Title>Acceuil</Title>
                     <div className={"h-full w-full p-4 flex flex-col gap-5"}>
                         <WelcomeText session={session}/>
+                        {session.user.settings.devMode ? <Debug>SESSION : {JSON.stringify(session)}</Debug> : null}
                     </div>
                 </div>
             </div>
