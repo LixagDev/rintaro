@@ -21,7 +21,7 @@ export default function Youtube({...props}){
                     <Title>{actualSoftwareName}</Title>
                     <div className={"h-full w-full p-4 flex flex-col gap-5"}>
                         <SoftwareTitle title={actualSoftwareName} description={actualSoftwareDescription}/>
-                        <YoutubeDownloader/>
+                        <YoutubeDownloader session={session}/>
                     </div>
                 </div>
             </div>
