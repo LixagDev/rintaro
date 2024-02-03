@@ -41,6 +41,7 @@ model User {
   emailVerified DateTime?
   image         String?
   created_at    DateTime  @default(now())
+  devMode       Boolean   @default(false)
   accounts      Account[]
   sessions      Session[]
 }
