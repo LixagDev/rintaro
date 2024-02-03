@@ -4,6 +4,7 @@ const prisma = new PrismaClient();
 
 export async function init(session){
     let userId;
+    let devMode;
 
     const userSessionData = await prisma.user.findUnique({
         where:{
@@ -11,10 +12,12 @@ export async function init(session){
         },
         select:{
             id: true,
+            devMode: true,
         }
     });
 
     userId = userSessionData.id;
+    devMode = userSessionData.devMode;
 
     const userSessionStats = await prisma.stat.findUnique({
         where:{
@@ -33,19 +36,29 @@ export async function init(session){
     await prisma.$disconnect();
 
     session.user.id = userId;
+    session.user.settings = {devMode: devMode};
 
     return session;
 }
 
-export async function UpdateImageConvertStat(session){
+export async function getUserStats(session){
     const userSessionStats = await prisma.stat.findUnique({
         where:{
             userId: session.user.id,
         },
         select:{
             imageConvert: true,
+            youtubeDl: true,
         }
     });
+
+    await prisma.$disconnect();
+
+    return userSessionStats;
+}
+
+export async function UpdateImageConvertStat(session){
+    const userSessionStats = await getUserStats(session);
 
     const update = await prisma.stat.update({
         where:{
@@ -59,4 +72,28 @@ export async function UpdateImageConvertStat(session){
     await prisma.$disconnect();
 }
 
-//Faire update stats pour le download youtube
+export async function UpdateYoutubeDlStat(session){
+    const userSessionStats = await getUserStats(session);
+
+    const update = await prisma.stat.update({
+        where:{
+            userId: session.user.id,
+        },
+        data:{
+            youtubeDl: userSessionStats.youtubeDl + 1,
+        }
+    });
+
+    await prisma.$disconnect();
+}
+
+export async function SaveSettings({session, devMode}){
+    return prisma.user.update({
+        where: {
+            id: session.user.id,
+        },
+        data:{
+            devMode: devMode,
+        }
+    });
+}
