@@ -5,6 +5,7 @@ import {SoftwaresData} from "@/data/data";
 import SoftwareTitle from "@/components/softwares/SoftwareTitle";
 import LeftMenu from "@/components/navigation/LeftMenu";
 import Title from "@/components/Title";
+import Debug from "@/components/Debug";
 
 export default function Convert({...props}){
     const session = props.session;
