@@ -6,7 +6,7 @@ import axios from "axios";
 import FormData from "form-data";
 import {useRouter} from "next/navigation";
 import {toast} from "sonner";
-import {Trash2} from "lucide-react";
+import {Loader2} from "lucide-react";
 import {
     Select,
     SelectContent,
@@ -16,32 +16,39 @@ import {
     SelectTrigger,
     SelectValue
 } from "@/components/ui/select";
+import {Separator} from "@/components/ui/separator";
+import {UpdateYoutubeDlStat} from "@/functions/DataManager";
+import Debug from "@/components/Debug";
 
-export default function YoutubeDownloader(){
+export default function YoutubeDownloader({...props}){
+    const session = props.session;
     const router = useRouter();
     const [url, setUrl] = useState();
     const [isPlaylist, setIsPlaylist] = useState();
     const [state, setState] = useState({loading: false, finish: false, response: null, downloadLink: null});
     const [output, setOutput] = useState({videoName: null});
-    const [ext, setExt] = useState();
+    const [format, setFormat] = useState();
 
     const download = () => {
         let data = new FormData();
         data.append("link", url);
-        data.append("ext", ext);
+        data.append("format", format);
         setState({loading: true, finish: false, response: null, downloadLink: null});
         axios.post("https://api.rintaro.fr/youtube-dl/index.php", data)
-            .then((response) =>{
+            .then(async (response) =>{
+
+                console.log(response.data)
                 if (response.data.response === true){
                     setState({loading: false, finish: true, response: response.data.response, downloadLink: response.data.link});
                     setOutput({videoName: response.data.videoName});
-                    toast("C'est bon !", {
+                    toast("Video convertie !", {
                         description: response.data.videoName,
                         action: {
                             label: "Ok",
                             onClick: () => null,
                         },
-                    })
+                    });
+                    await UpdateYoutubeDlStat(session);
                 }
                 else{
                     setState({loading: false, finish: true, response: response.data.response, downloadLink: null});
@@ -65,36 +72,51 @@ export default function YoutubeDownloader(){
 
     return (
         <>
+            {session.user.settings.devMode ? <Debug>STATE : {JSON.stringify(state)}</Debug> : null}
+            {session.user.settings.devMode ? <Debug>OUTPUT : {JSON.stringify(output)}</Debug> : null}
             <div className={"border p-3 flex gap-3 w-2/3 backdrop-blur-sm ml-auto mr-auto rounded-xl"}>
                 <Input type="email" placeholder="https://www.youtube.fr/watch?=abcd1234" value={url}
                        onChange={(e) => write(e)}/>
-                <Select onValueChange={(e) => setExt(e)}>
+                <Select onValueChange={(e) => setFormat(e)}>
                     <SelectTrigger className={"w-fit"}>
-                        <SelectValue placeholder="Choisir une extension"/>
+                        <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
                         <SelectGroup>
+                            <SelectLabel>Qualité</SelectLabel>
+                            <SelectItem value="best">Meilleur</SelectItem>
+                            <SelectItem value="high">Haute</SelectItem>
+                            <SelectItem value="normal">Normal</SelectItem>
+                            <SelectItem value="low">Bas</SelectItem>
+                            <SelectItem value="worst">Horrible</SelectItem>
+                            <Separator></Separator>
                             <SelectLabel>Format</SelectLabel>
-                            <SelectItem disabled={true} value="mp3, mp3">mp3</SelectItem>
-                            <SelectItem value="mp4, m4a">mp4</SelectItem>
-                            <SelectItem value="webm, webm">webm</SelectItem>
+                            <SelectItem value="mp4++">mp4++</SelectItem>
+                            <SelectItem value="mp4">mp4</SelectItem>
+                            <Separator></Separator>
+                            <SelectLabel>Encodage</SelectLabel>
+                            <SelectItem value="codec:h">h264 | h265</SelectItem>
+                            <Separator></Separator>
+                            <SelectLabel>Autre</SelectLabel>
+                            <SelectItem value="audio">Audio</SelectItem>
                         </SelectGroup>
                     </SelectContent>
                 </Select>
                 {
                     state.finish && state.response && state.downloadLink ?
-                        <Button onClick={() => router.push(state.downloadLink)}>Télécharger</Button> :
-                        <Button disabled={(!url || state.loading || !ext || isPlaylist)}
-                                onClick={download}>Convertir</Button>
+                        <Button onClick={() => {
+                            router.push(state.downloadLink);
+                            setState({loading: false, finish: false, response: null, downloadLink: null});
+                            setUrl("");
+                            setOutput({videoName: null});
+                        }}>Télécharger</Button> :
+                        <Button disabled={(!url || state.loading || !format || isPlaylist)}
+                                onClick={download}>{state.loading ? <><Loader2 className={"animate-spin w-4 mr-2"}/>Conversion</>  : "Convertir"}</Button>
                 }
-                <Button variant={"destructive"} disabled={state.loading} onClick={() => {
-                    setState({loading: false, finish: false, response: null, downloadLink: null});
-                    setUrl("");
-                    setOutput({videoName: null});
-                }}><Trash2/></Button>
             </div>
             {
-                isPlaylist ? <span className={"text-destructive ml-auto mr-auto"}>Cette vidéo provient d'une playlist !</span> : null
+                isPlaylist ? <span
+                    className={"text-destructive ml-auto mr-auto"}>Les vidéos prevenant d'une playlist ne peuvent pas être convertie !</span> : null
             }
         </>
     );
