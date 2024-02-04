@@ -41,10 +41,26 @@ export async function init(session){
     return session;
 }
 
-export async function getUserStats(session){
+export async function GetUserData(username){
+    return prisma.user.findUnique({
+        where:{
+            name: username,
+        },
+        select:{
+            id: true,
+            name: true,
+            image: true,
+            created_at: true,
+        }
+    });
+
+    await prisma.$disconnect();
+}
+
+export async function GetUserStats(userId){
     const userSessionStats = await prisma.stat.findUnique({
         where:{
-            userId: session.user.id,
+            userId: userId,
         },
         select:{
             imageConvert: true,
@@ -58,7 +74,7 @@ export async function getUserStats(session){
 }
 
 export async function UpdateImageConvertStat(session){
-    const userSessionStats = await getUserStats(session);
+    const userSessionStats = await GetUserStats(session.user.id);
 
     const update = await prisma.stat.update({
         where:{
@@ -73,7 +89,7 @@ export async function UpdateImageConvertStat(session){
 }
 
 export async function UpdateYoutubeDlStat(session){
-    const userSessionStats = await getUserStats(session);
+    const userSessionStats = await GetUserStats(session.user.id);
 
     const update = await prisma.stat.update({
         where:{
@@ -96,4 +112,6 @@ export async function SaveSettings({session, devMode}){
             devMode: devMode,
         }
     });
+
+    await prisma.$disconnect();
 }
