@@ -1,13 +1,16 @@
 "use client"
 import {Avatar, AvatarImage, AvatarFallback} from "@/components/ui/avatar";
 import MenuItem from "@/components/ui/menu-item";
-import {Settings, User, Github, LogOut, Home} from "lucide-react";
+import {Settings, User, Github, LogOut, Home, Sun, Moon, Computer} from "lucide-react";
 import {useRouter} from "next/navigation";
 import {signOut} from "next-auth/react";
 import {SoftwaresData} from "@/data/data";
 import {Separator} from "@/components/ui/separator";
 import {Badge} from "@/components/ui/badge";
 import SettingsModal from "@/components/wrappers/modals/SettingsModal";
+import {ThemeToggle} from "@/components/theme/ThemeToggle";
+import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
+import {Button} from "@/components/ui/button";
 
 export default function LeftMenu({...props}){
     const router = useRouter();
