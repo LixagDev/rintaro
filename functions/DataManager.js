@@ -84,8 +84,6 @@ export async function UpdateImageConvertStat(session){
             imageConvert: userSessionStats.imageConvert + 1,
         }
     });
-
-    await prisma.$disconnect();
 }
 
 export async function UpdateYoutubeDlStat(session){
@@ -110,6 +108,19 @@ export async function SaveSettings({session, devMode}){
         },
         data:{
             devMode: devMode,
+        }
+    });
+
+    await prisma.$disconnect();
+}
+
+export async function EditProfile({session, image}){
+    return prisma.user.update({
+        where: {
+            id: session.user.id,
+        },
+        data:{
+            image: image,
         }
     });
 
