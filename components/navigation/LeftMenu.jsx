@@ -20,7 +20,7 @@ export default function LeftMenu({...props}){
                 <div className={"flex flex-col basis-1/3"}>
                     <div className={"flex gap-2 items-center"}>
                         <Avatar className={"w-12 h-12"}>
-                            <AvatarImage draggable={false} src={session.user.image}></AvatarImage>
+                            <AvatarImage className={"object-cover"} draggable={false} src={session.user.image}></AvatarImage>
                             <AvatarFallback>{session.user.name[0].toUpperCase()}</AvatarFallback>
                         </Avatar>
                         <div className={"flex flex-col"}>
