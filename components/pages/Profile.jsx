@@ -1,8 +1,7 @@
 "use client"
 import LeftMenu from "@/components/navigation/LeftMenu";
-import Title from "@/components/Title";
+import Title from "@/components/navigation/Title";
 import Debug from "@/components/Debug"
-import {ThemeToggle} from "@/components/theme/ThemeToggle";
 import UserProfile from "@/components/user/UserProfile";
 
 export default function Profile({...props}){
@@ -18,7 +17,7 @@ export default function Profile({...props}){
                 <Title>Profil de {userData.name}</Title>
                 <div className={"h-full w-full p-4 flex flex-col gap-5"}>
                     {session.user.settings.devMode ? <Debug>REQUEST_USER : {JSON.stringify(userData)}</Debug> : null}
-                    <UserProfile userData={userData}/>
+                    <UserProfile session={session} userData={userData}/>
                 </div>
             </div>
         </div>

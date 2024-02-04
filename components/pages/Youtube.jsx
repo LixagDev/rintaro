@@ -4,7 +4,7 @@ import SoftwareTitle from "@/components/softwares/SoftwareTitle";
 import {SoftwaresData} from "@/data/data";
 import YoutubeDownloader from "@/components/softwares/YoutubeDownloader";
 import LeftMenu from "@/components/navigation/LeftMenu";
-import Title from "@/components/Title";
+import Title from "@/components/navigation/Title";
 
 export default function Youtube({...props}){
     const session = props.session;

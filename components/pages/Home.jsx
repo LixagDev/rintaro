@@ -2,7 +2,7 @@
 import WelcomeText from "@/components/WelcomeText";
 import {ThemeToggle} from "@/components/theme/ThemeToggle";
 import LeftMenu from "@/components/navigation/LeftMenu";
-import Title from "@/components/Title";
+import Title from "@/components/navigation/Title";
 import Debug from "@/components/Debug";
 
 export default function Home({...props}){
