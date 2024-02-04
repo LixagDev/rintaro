@@ -73,7 +73,6 @@ export default function YoutubeDownloader({...props}){
     return (
         <>
             {session.user.settings.devMode ? <Debug>STATE : {JSON.stringify(state)}</Debug> : null}
-            {session.user.settings.devMode ? <Debug>OUTPUT : {JSON.stringify(output)}</Debug> : null}
             <div className={"border p-3 flex gap-3 w-2/3 backdrop-blur-sm ml-auto mr-auto rounded-xl"}>
                 <Input type="email" placeholder="https://www.youtube.fr/watch?=abcd1234" value={url}
                        onChange={(e) => write(e)}/>
