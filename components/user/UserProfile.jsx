@@ -6,14 +6,23 @@ import {
 } from "@/components/ui/avatar";
 import {Separator} from "@/components/ui/separator";
 import {GetRintaroJoinDate} from "@/functions/Utils";
+import {Button} from "@/components/ui/button";
+import {Pencil} from "lucide-react";
+import EditProfileModal from "@/components/wrappers/modals/EditProfileModal";
+
 
 export default function UserProfile({...props}){
+    const session = props.session;
     const userData = props.userData;
     const imageConvert = userData.stats.imageConvert;
     const youtubeDl = userData.stats.youtubeDl;
 
     return(
-        <div className={"flex flex-col border rounded-xl mr-auto ml-auto w-1/2 backdrop-blur-sm p-4 gap-4"}>
+        <div className={"relative flex flex-col border rounded-xl mr-auto ml-auto w-1/2 backdrop-blur-sm p-4 gap-4"}>
+            {
+                session.user.name === userData.name ? <EditProfileModal session={session}><Button className={"absolute right-4"} size={"icon"} variant={"outline"}><Pencil className={"w-5"}/></Button></EditProfileModal>
+                    : null
+            }
             <div className={"flex gap-2 justify-center"}>
                 <Avatar className={"w-32 h-32"}>
                     <AvatarImage draggable={false} src={userData.image} className={"object-cover"}/>
