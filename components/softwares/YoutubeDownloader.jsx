@@ -5,7 +5,7 @@ import {Button} from "@/components/ui/button";
 import axios from "axios";
 import FormData from "form-data";
 import {useRouter} from "next/navigation";
-import {toast} from "sonner";
+import {Toast} from "@/functions/Utils";
 import {Loader2} from "lucide-react";
 import {
     Select,
@@ -36,29 +36,15 @@ export default function YoutubeDownloader({...props}){
         setState({loading: true, finish: false, response: null, downloadLink: null});
         axios.post("https://api.rintaro.fr/youtube-dl/index.php", data)
             .then(async (response) =>{
-
-                console.log(response.data)
                 if (response.data.response === true){
                     setState({loading: false, finish: true, response: response.data.response, downloadLink: response.data.link});
                     setOutput({videoName: response.data.videoName});
-                    toast("Video convertie !", {
-                        description: response.data.videoName,
-                        action: {
-                            label: "Ok",
-                            onClick: () => null,
-                        },
-                    });
+                    Toast({title: "Vidéo convertie !", description: response.data.videoName})
                     await UpdateYoutubeDlStat(session);
                 }
                 else{
                     setState({loading: false, finish: true, response: response.data.response, downloadLink: null});
-                    toast("Il y a une erreur !", {
-                        description: response.data.message,
-                        action: {
-                            label: "Ok",
-                            onClick: () => null,
-                        },
-                    })
+                    Toast({title: "Il y a une erreur !", description: response.data.message})
                 }
             })
     }
@@ -86,7 +72,7 @@ export default function YoutubeDownloader({...props}){
                             <SelectItem value="best">Meilleur</SelectItem>
                             <SelectItem value="high">Haute</SelectItem>
                             <SelectItem value="normal">Normal</SelectItem>
-                            <SelectItem value="low">Bas</SelectItem>
+                            <SelectItem value="low">Basse</SelectItem>
                             <SelectItem value="worst">Horrible</SelectItem>
                             <Separator></Separator>
                             <SelectLabel>Format</SelectLabel>
