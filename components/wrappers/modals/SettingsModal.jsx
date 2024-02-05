@@ -14,7 +14,7 @@ import {Switch} from "@/components/ui/switch";
 import {useRef, useState} from "react";
 import {useRouter} from "next/navigation";
 import {SaveSettings} from "@/functions/DataManager";
-import {toast} from "sonner";
+import {Toast} from "@/functions/Utils";
 import {Loader2} from "lucide-react";
 
 export default function SettingsModal({children, ...props}){
@@ -28,14 +28,9 @@ export default function SettingsModal({children, ...props}){
         setIsLoading(true);
         await SaveSettings({session, devMode})
             .then(() => {
-                close.current.click();
+                if (close.current) close.current.click();
                 setIsLoading(false);
-                toast("Paramètres enregistré !", {
-                    action: {
-                        label: "Ok",
-                        onClick: () => null,
-                    },
-                });
+                Toast({title: "Paramètres enregistrés avec succès !"})
                 router.refresh();
             });
     }

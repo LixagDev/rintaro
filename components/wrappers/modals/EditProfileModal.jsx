@@ -22,7 +22,7 @@ import {Input} from "@/components/ui/input";
 import axios from "axios";
 import {EditProfile} from "@/functions/DataManager";
 import {useRouter} from "next/navigation";
-import {toast} from "sonner";
+import {Toast} from "@/functions/Utils";
 
 export default function EditProfileModal({children, ...props}){
     const router = useRouter();
@@ -39,23 +39,17 @@ export default function EditProfileModal({children, ...props}){
         data.append("oldFile", session.user.image);
         axios.post("https://api.rintaro.fr/users/avatar/upload.php", data, {headers: {'Content-Type': `multipart/form-data;`,}})
             .then(async (response) => {
-                console.log(response.data);
                 if (response.data.response){
                     await EditProfile({session, image: response.data.link})
                         .then(() => {
-                            close.current.click();
+                            if (close.current) close.current.click();
+                            Toast({title: "Profil édité avec succès !", description: response.data.message});
                             setFile(null);
                             router.refresh();
                         })
                 }
                 else{
-                    toast("Il y a une erreur !", {
-                        description: response.data.message,
-                        action: {
-                            label: "Ok",
-                            onClick: () => null,
-                        },
-                    })
+                    Toast({title: "Il y a une erreur !", description: response.data.message});
                 }
                 setIsLoading(false);
             });
