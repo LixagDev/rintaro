@@ -1,11 +1,9 @@
 "use client"
-import {ThemeToggle} from "@/components/theme/ThemeToggle";
 import Converter from "@/components/softwares/Converter";
 import {SoftwaresData} from "@/data/data";
 import SoftwareTitle from "@/components/softwares/SoftwareTitle";
 import LeftMenu from "@/components/navigation/LeftMenu";
 import Title from "@/components/navigation/Title";
-import Debug from "@/components/Debug";
 
 export default function Convert({...props}){
     const session = props.session;
