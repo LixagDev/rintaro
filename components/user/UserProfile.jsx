@@ -7,7 +7,7 @@ import {
 import {Separator} from "@/components/ui/separator";
 import {GetRintaroJoinDate} from "@/functions/Utils";
 import {Button} from "@/components/ui/button";
-import {Pencil} from "lucide-react";
+import {Pencil, Youtube, RefreshCw} from "lucide-react";
 import EditProfileModal from "@/components/wrappers/modals/EditProfileModal";
 
 
@@ -37,13 +37,27 @@ export default function UserProfile({...props}){
             <Separator/>
             <div className={"flex flex-col gap-4"}>
                 <div className={"flex gap-4"}>
-                    <div className={"flex border rounded-xl p-4 w-1/2 items-center"}>
-                        <span className={"flex basis-2/3 justify-start"}>Images converties</span>
-                        <span className={"flex basis-1/3 justify-end font-bold"}>{imageConvert}</span>
+                    <div className={"flex flex-col border rounded-xl p-4 gap-2 w-1/2"}>
+                        <div className={"flex"}>
+                            <span className={"flex basis-2/3 font-semibold justify-start"}>Images converties</span>
+                            <div className={"flex basis-1/3 justify-end"}>
+                                <RefreshCw className={"text-zinc-500"}/>
+                            </div>
+                        </div>
+                        <div className={"flex"}>
+                            <span className={"font-bold text-3xl"}>{imageConvert}</span>
+                        </div>
                     </div>
-                    <div className={"flex border rounded-xl p-4 w-1/2 items-center"}>
-                        <span className={"flex basis-2/3 justify-start"}>Vidéo Youtube téléchargées</span>
-                        <span className={"flex basis-1/3 justify-end font-bold"}>{youtubeDl}</span>
+                    <div className={"flex flex-col border rounded-xl p-4 gap-2 w-1/2"}>
+                        <div className={"flex"}>
+                            <span className={"flex basis-2/3 font-semibold justify-start"}>Vidéos Youtube téléchargés</span>
+                            <div className={"flex basis-1/3 justify-end"}>
+                                <Youtube className={"text-zinc-500"}/>
+                            </div>
+                        </div>
+                        <div className={"flex"}>
+                            <span className={"font-bold text-3xl"}>{youtubeDl}</span>
+                        </div>
                     </div>
                 </div>
             </div>
