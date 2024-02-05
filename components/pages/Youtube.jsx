@@ -1,10 +1,10 @@
 "use client"
-import {ThemeToggle} from "@/components/theme/ThemeToggle";
 import SoftwareTitle from "@/components/softwares/SoftwareTitle";
 import {SoftwaresData} from "@/data/data";
-import YoutubeDownloader from "@/components/softwares/YoutubeDownloader";
 import LeftMenu from "@/components/navigation/LeftMenu";
 import Title from "@/components/navigation/Title";
+import YoutubeDownloader from "@/components/softwares/YoutubeDownloader";
+import YoutubeHelp from "@/components/helps/YoutubeHelp";
 
 export default function Youtube({...props}){
     const session = props.session;
@@ -21,6 +21,7 @@ export default function Youtube({...props}){
                 <div className={"h-full w-full p-4 flex flex-col gap-5"}>
                     <SoftwareTitle title={actualSoftwareName} description={actualSoftwareDescription}/>
                     <YoutubeDownloader session={session}/>
+                    <YoutubeHelp/>
                 </div>
             </div>
         </div>
