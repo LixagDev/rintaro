@@ -5,7 +5,6 @@ import Debug from "@/components/Debug"
 import UserProfileSkeleton from "@/components/skeletons/UserProfileSkeleton";
 const UserProfile = dynamic(() => import("@/components/user/UserProfile"), {loading: () => <UserProfileSkeleton/>, ssr: false});
 import dynamic from "next/dynamic";
-import {Suspense} from "react";
 
 export default function Profile({...props}){
     const session = props.session;
@@ -20,9 +19,7 @@ export default function Profile({...props}){
                 <Title>Profil de {userData.name}</Title>
                 <div className={"h-full w-full p-4 flex flex-col gap-5"}>
                     {session.user.settings.devMode ? <Debug>REQUEST_USER : {JSON.stringify(userData)}</Debug> : null}
-                    <Suspense>
-                        <UserProfile session={session} userData={userData}/>
-                    </Suspense>
+                    <UserProfile session={session} userData={userData}/>
                 </div>
             </div>
         </div>
