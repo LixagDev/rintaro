@@ -3,9 +3,9 @@ import LeftMenu from "@/components/navigation/LeftMenu";
 import Title from "@/components/navigation/Title";
 import Debug from "@/components/Debug"
 import UserProfileSkeleton from "@/components/skeletons/UserProfileSkeleton";
-import UserProfile from "@/components/user/UserProfile";
-//const UserProfile = dynamic(() => import("@/components/user/UserProfile"), {loading: () => <UserProfileSkeleton/>, ssr: false});
+const UserProfile = dynamic(() => import("@/components/user/UserProfile"), {loading: () => <UserProfileSkeleton/>, ssr: false});
 import dynamic from "next/dynamic";
+import {Suspense} from "react";
 
 export default function Profile({...props}){
     const session = props.session;
@@ -20,7 +20,9 @@ export default function Profile({...props}){
                 <Title>Profil de {userData.name}</Title>
                 <div className={"h-full w-full p-4 flex flex-col gap-5"}>
                     {session.user.settings.devMode ? <Debug>REQUEST_USER : {JSON.stringify(userData)}</Debug> : null}
-                    <UserProfile session={session} userData={userData}/>
+                    <Suspense>
+                        <UserProfile session={session} userData={userData}/>
+                    </Suspense>
                 </div>
             </div>
         </div>
