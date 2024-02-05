@@ -3,7 +3,8 @@ import LeftMenu from "@/components/navigation/LeftMenu";
 import Title from "@/components/navigation/Title";
 import Debug from "@/components/Debug"
 import UserProfileSkeleton from "@/components/skeletons/UserProfileSkeleton";
-const UserProfile = dynamic(() => import("@/components/user/UserProfile"), {loading: () => <UserProfileSkeleton/>, ssr: false});
+import UserProfile from "@/components/user/UserProfile";
+//const UserProfile = dynamic(() => import("@/components/user/UserProfile"), {loading: () => <UserProfileSkeleton/>, ssr: false});
 import dynamic from "next/dynamic";
 
 export default function Profile({...props}){
