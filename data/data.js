@@ -13,7 +13,7 @@ export function SoftwaresData() {
         {
             id: 1,
             name: "Youtube DL",
-            description: "Téléchargez vos videos Youtube.",
+            description: "Téléchargez vos vidéos Youtube.",
             href: "/youtube-dl",
             logo: <Youtube className={"w-4 mr-1"}/>,
             beta: false
