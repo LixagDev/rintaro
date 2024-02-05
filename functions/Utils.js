@@ -1,4 +1,6 @@
-export function ConvertTime(time){
+import {toast} from "sonner";
+
+ function ConvertTime(time){
     const actualDate = new Date();
     const actualTimestamp = (actualDate.getTime()/1000).toFixed(0);
 
@@ -47,4 +49,14 @@ export function GetRintaroJoinDate(userJoinDate){
     const year = date.getFullYear();
 
     return `${month} ${year}`;
+}
+
+export function Toast({title, description}){
+    toast(title, {
+        description: description,
+        action: {
+            label: "Ok",
+            onClick: () => null,
+        },
+    })
 }
