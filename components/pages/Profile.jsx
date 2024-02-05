@@ -2,7 +2,9 @@
 import LeftMenu from "@/components/navigation/LeftMenu";
 import Title from "@/components/navigation/Title";
 import Debug from "@/components/Debug"
-import UserProfile from "@/components/user/UserProfile";
+import UserProfileSkeleton from "@/components/skeletons/UserProfileSkeleton";
+const UserProfile = dynamic(() => import("@/components/user/UserProfile"), {loading: () => <UserProfileSkeleton/>});
+import dynamic from "next/dynamic";
 
 export default function Profile({...props}){
     const session = props.session;
