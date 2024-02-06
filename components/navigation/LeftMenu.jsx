@@ -8,7 +8,6 @@ import {SoftwaresData} from "@/data/data";
 import {Separator} from "@/components/ui/separator";
 import {Badge} from "@/components/ui/badge";
 import SettingsModal from "@/components/wrappers/modals/SettingsModal";
-import Link from "next/link";
 import {Button} from "@/components/ui/button";
 
 export default function LeftMenu({...props}){
@@ -33,7 +32,7 @@ export default function LeftMenu({...props}){
                 </div>
                 <div className={"flex flex-col justify-center basis-1/3"}>
                     <MenuItem onClick={() => router.push("/")} icon={<Home className={"w-4 mr-1"}/>}>Accueil</MenuItem>
-                    <MenuItem onClick={() => router.push("/history")} icon={<History className={"w-4 mr-1"}/>}>Historique</MenuItem>
+                    <MenuItem onClick={() => router.push("/history")} icon={<History className={"w-4 mr-1"}/>}>Historique <Badge>Beta</Badge></MenuItem>
                     <Separator className={"mt-1 mb-1"}/>
                     {
                         softwares.map((software) => {
