@@ -1,7 +1,8 @@
 "use client"
 import LeftMenu from "@/components/navigation/LeftMenu";
 import Title from "@/components/navigation/Title";
-import HistoryTable from "@/components/HistoryTable";
+const HistoryTable = dynamic(() => import("@/components/HistoryTable"), {loading: () => <span>CHARGEMENT HISTORIQUE</span>})
+import dynamic from "next/dynamic";
 
 export default function History({...props}){
     const session = props.session;
