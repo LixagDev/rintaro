@@ -17,7 +17,7 @@ import {
     SelectValue
 } from "@/components/ui/select";
 import {Separator} from "@/components/ui/separator";
-import {UpdateYoutubeDlStat} from "@/functions/DataManager";
+import {UpdateHistory, UpdateYoutubeDlStat} from "@/functions/DataManager";
 import Debug from "@/components/Debug";
 
 export default function YoutubeDownloader({...props}){
@@ -26,7 +26,6 @@ export default function YoutubeDownloader({...props}){
     const [url, setUrl] = useState();
     const [isPlaylist, setIsPlaylist] = useState();
     const [state, setState] = useState({loading: false, finish: false, response: null, downloadLink: null});
-    const [output, setOutput] = useState({videoName: null});
     const [format, setFormat] = useState();
 
     const download = () => {
@@ -37,10 +36,14 @@ export default function YoutubeDownloader({...props}){
         axios.post("https://api.rintaro.fr/youtube-dl/index.php", data)
             .then(async (response) =>{
                 if (response.data.response === true){
-                    setState({loading: false, finish: true, response: response.data.response, downloadLink: response.data.link});
-                    setOutput({videoName: response.data.videoName});
-                    Toast({title: "Vidéo convertie !", description: response.data.videoName})
-                    await UpdateYoutubeDlStat(session);
+                    await UpdateHistory({session, name: response.data.videoName, downloadLink: response.data.link, softwareId: 1})
+                        .then(async () => {
+                            await UpdateYoutubeDlStat(session)
+                                .then(() => {
+                                    setState({loading: false, finish: true, response: response.data.response, downloadLink: response.data.link});
+                                    Toast({title: "Vidéo convertie !", description: response.data.videoName})
+                                })
+                        })
                 }
                 else{
                     setState({loading: false, finish: true, response: response.data.response, downloadLink: null});
@@ -93,7 +96,6 @@ export default function YoutubeDownloader({...props}){
                             router.push(state.downloadLink);
                             setState({loading: false, finish: false, response: null, downloadLink: null});
                             setUrl("");
-                            setOutput({videoName: null});
                         }}>Télécharger</Button> :
                         <Button disabled={(!url || state.loading || !format || isPlaylist)}
                                 onClick={download}>{state.loading ? <><Loader2 className={"animate-spin w-4 mr-2"}/>Conversion</>  : "Convertir"}</Button>

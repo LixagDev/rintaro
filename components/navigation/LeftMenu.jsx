@@ -1,7 +1,7 @@
 "use client"
 import {Avatar, AvatarImage, AvatarFallback} from "@/components/ui/avatar";
 import MenuItem from "@/components/ui/menu-item";
-import {Settings, User, Github, LogOut, Home} from "lucide-react";
+import {Settings, User, Github, LogOut, Home, History} from "lucide-react";
 import {useRouter} from "next-nprogress-bar";
 import {signOut} from "next-auth/react";
 import {SoftwaresData} from "@/data/data";
@@ -33,6 +33,7 @@ export default function LeftMenu({...props}){
                 </div>
                 <div className={"flex flex-col justify-center basis-1/3"}>
                     <MenuItem onClick={() => router.push("/")} icon={<Home className={"w-4 mr-1"}/>}>Accueil</MenuItem>
+                    <MenuItem onClick={() => router.push("/history")} icon={<History className={"w-4 mr-1"}/>}>Historique</MenuItem>
                     <Separator className={"mt-1 mb-1"}/>
                     {
                         softwares.map((software) => {
