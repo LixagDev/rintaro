@@ -17,7 +17,7 @@ import {
     SelectValue
 } from "@/components/ui/select";
 import {Separator} from "@/components/ui/separator";
-import {UpdateHistory, UpdateYoutubeDlStat} from "@/functions/DataManager";
+import {UpdateHistory, UpdateHistoryDownloaded, UpdateYoutubeDlStat} from "@/functions/DataManager";
 import Debug from "@/components/Debug";
 
 export default function YoutubeDownloader({...props}){
@@ -25,30 +25,40 @@ export default function YoutubeDownloader({...props}){
     const router = useRouter();
     const [url, setUrl] = useState();
     const [isPlaylist, setIsPlaylist] = useState();
-    const [state, setState] = useState({loading: false, finish: false, response: null, downloadLink: null});
+    const [state, setState] = useState({loading: false, finish: false, response: null, downloadLink: null, historyId: null});
     const [format, setFormat] = useState();
 
-    const download = () => {
+    const convert = () => {
         let data = new FormData();
         data.append("link", url);
         data.append("format", format);
-        setState({loading: true, finish: false, response: null, downloadLink: null});
+        setState({loading: true, finish: false, response: null, downloadLink: null, historyId: null});
         axios.post("https://api.rintaro.fr/youtube-dl/index.php", data)
             .then(async (response) =>{
                 if (response.data.response === true){
-                    await UpdateHistory({session, name: response.data.videoName, downloadLink: response.data.link, softwareId: 1})
+                    await UpdateHistory({historyId: response.data.historyId, session, name: response.data.videoName, downloadLink: response.data.link, softwareId: 1})
                         .then(async () => {
                             await UpdateYoutubeDlStat(session)
                                 .then(() => {
-                                    setState({loading: false, finish: true, response: response.data.response, downloadLink: response.data.link});
+                                    router.refresh();
+                                    setState({loading: false, finish: true, response: response.data.response, downloadLink: response.data.link, historyId: response.data.historyId});
                                     Toast({title: "Vidéo convertie !", description: response.data.videoName})
                                 })
                         })
                 }
                 else{
-                    setState({loading: false, finish: true, response: response.data.response, downloadLink: null});
+                    setState({loading: false, finish: true, response: response.data.response, downloadLink: null, historyId: null});
                     Toast({title: "Il y a une erreur !", description: response.data.message})
                 }
+            })
+    }
+
+    const download = async () => {
+        await UpdateHistoryDownloaded(state.historyId)
+            .then(() => {
+                router.push(state.downloadLink);
+                setState({loading: false, finish: false, response: null, downloadLink: null, historyId: null});
+                setUrl("");
             })
     }
 
@@ -92,13 +102,9 @@ export default function YoutubeDownloader({...props}){
                 </Select>
                 {
                     state.finish && state.response && state.downloadLink ?
-                        <Button onClick={() => {
-                            router.push(state.downloadLink);
-                            setState({loading: false, finish: false, response: null, downloadLink: null});
-                            setUrl("");
-                        }}>Télécharger</Button> :
+                        <Button onClick={download}>Télécharger</Button> :
                         <Button disabled={(!url || state.loading || !format || isPlaylist)}
-                                onClick={download}>{state.loading ? <><Loader2 className={"animate-spin w-4 mr-2"}/>Conversion</>  : "Convertir"}</Button>
+                                onClick={convert}>{state.loading ? <><Loader2 className={"animate-spin w-4 mr-2"}/>Conversion</>  : "Convertir"}</Button>
                 }
             </div>
             {
