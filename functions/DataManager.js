@@ -33,8 +33,6 @@ export async function init(session){
         });
     }
 
-    await prisma.$disconnect();
-
     session.user.id = userId;
     session.user.settings = {devMode: devMode};
 
@@ -53,8 +51,19 @@ export async function GetUserData(username){
             created_at: true,
         }
     });
+}
 
-    await prisma.$disconnect();
+export async function GetUserHistory(session){
+    const userHistory = await prisma.history.findMany({
+        where:{
+            userId: session.user.id
+        },
+        orderBy:{
+            created_at: "desc"
+        }
+    });
+
+    return userHistory;
 }
 
 export async function GetUserStats(userId){
@@ -68,15 +77,24 @@ export async function GetUserStats(userId){
         }
     });
 
-    await prisma.$disconnect();
-
     return userSessionStats;
+}
+
+export async function UpdateHistory({softwareId, name, downloadLink, session}){
+    await prisma.history.create({
+        data:{
+            userId: session.user.id,
+            softwareId: softwareId,
+            name: name,
+            downloadLink: downloadLink
+        }
+    });
 }
 
 export async function UpdateImageConvertStat(session){
     const userSessionStats = await GetUserStats(session.user.id);
 
-    const update = await prisma.stat.update({
+    await prisma.stat.update({
         where:{
             userId: session.user.id,
         },
@@ -89,7 +107,7 @@ export async function UpdateImageConvertStat(session){
 export async function UpdateYoutubeDlStat(session){
     const userSessionStats = await GetUserStats(session.user.id);
 
-    const update = await prisma.stat.update({
+    await prisma.stat.update({
         where:{
             userId: session.user.id,
         },
@@ -97,12 +115,10 @@ export async function UpdateYoutubeDlStat(session){
             youtubeDl: userSessionStats.youtubeDl + 1,
         }
     });
-
-    await prisma.$disconnect();
 }
 
 export async function SaveSettings({session, devMode}){
-    return prisma.user.update({
+   return prisma.user.update({
         where: {
             id: session.user.id,
         },
@@ -110,8 +126,6 @@ export async function SaveSettings({session, devMode}){
             devMode: devMode,
         }
     });
-
-    await prisma.$disconnect();
 }
 
 export async function EditProfile({session, image}){
@@ -123,6 +137,12 @@ export async function EditProfile({session, image}){
             image: image,
         }
     });
+}
 
-    await prisma.$disconnect();
+export async function DeleteHistory(session){
+    return prisma.history.deleteMany({
+        where:{
+            userId: session.user.id,
+        }
+    });
 }
