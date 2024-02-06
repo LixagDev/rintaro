@@ -8,8 +8,8 @@ export default async function index({params}){
     let session = await getServerSession(authOptions);
 
     if (session){
-        session = await init(session);
         const userHistory = await GetUserHistory(session);
+        session = await init(session);
         return <History session={session} userHistory={userHistory}/>
     }
     else redirect("/");
