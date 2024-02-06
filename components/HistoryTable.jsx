@@ -1,9 +1,9 @@
 "use client"
 import Debug from "@/components/Debug";
 import {Button} from "@/components/ui/button";
-import {useRouter} from "next-nprogress-bar";
+import {useRouter} from "next/navigation";
 import {SoftwaresData} from "@/data/data";
-import {DeleteHistory} from "@/functions/DataManager";
+import {DeleteHistory, UpdateHistoryDownloaded} from "@/functions/DataManager";
 import {useState} from "react";
 import {Loader2} from "lucide-react";
 
@@ -11,16 +11,25 @@ export default function HistoryTable({...props}){
     const router = useRouter();
     const software = SoftwaresData();
     const session = props.session;
-    const userHistory = props.userHistory;
+    const [userHistory, setUserHistory] = useState(props.userHistory);
     const [isLoading, setIsLoading] = useState(false);
 
     const deleteHistory = async () => {
         setIsLoading(true);
         await DeleteHistory(session)
             .then(() => {
-                router.refresh();
+                setUserHistory([]);
                 setIsLoading(false);
             });
+    }
+
+    const download = async (e, {downloadLink, historyId}) => {
+        e.target.disabled = true;
+        await UpdateHistoryDownloaded(historyId)
+            .then(() => {
+                router.push(downloadLink);
+            });
+
     }
 
     return(
@@ -33,9 +42,12 @@ export default function HistoryTable({...props}){
                         userHistory.length === 0 ? <span className={"text-center"}>L'historique est vide.</span>
                             : userHistory.map((history) => {
                                 return(
-                                    <div className={"flex items-center"}>
+                                    <div className={"flex items-center gap-2"}>
                                         {software[history.softwareId].logo}
-                                        <span>{history.name}</span>
+                                        <span className={"basis-2/3"}>{history.name}</span>
+                                        <div className={"basis-1/3 flex justify-end"}>
+                                            <Button onClick={(e) => download(e, {downloadLink: history.downloadLink, historyId: history.id})} disabled={history.isDownloaded}>Télécharger</Button>
+                                        </div>
                                     </div>
                                 );
                             })
