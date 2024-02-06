@@ -80,13 +80,25 @@ export async function GetUserStats(userId){
     return userSessionStats;
 }
 
-export async function UpdateHistory({softwareId, name, downloadLink, session}){
+export async function UpdateHistory({historyId, softwareId, name, downloadLink, session}){
     await prisma.history.create({
         data:{
+            id: historyId,
             userId: session.user.id,
             softwareId: softwareId,
             name: name,
             downloadLink: downloadLink
+        }
+    });
+}
+
+export async function UpdateHistoryDownloaded(historyId){
+    await prisma.history.update({
+        where:{
+            id: historyId,
+        },
+        data:{
+            isDownloaded: true,
         }
     });
 }
