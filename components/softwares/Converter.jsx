@@ -24,8 +24,14 @@ import FormData from "form-data";
 import {useRouter} from "next/navigation";
 import {Trash2, Loader2} from "lucide-react";
 import {useDropzone} from "react-dropzone";
-import {UpdateImageConvertStat} from "@/functions/DataManager";
+import {
+    UpdateHistory,
+    UpdateHistoryDownloaded,
+    UpdateImageConvertStat,
+    UpdateYoutubeDlStat
+} from "@/functions/DataManager";
 import Debug from "@/components/Debug";
+import {Toast} from "@/functions/Utils";
 
 export default function Converter({...props}){
     const session = props.session;
@@ -56,12 +62,19 @@ export default function Converter({...props}){
         axios.post("https://api.rintaro.fr/convert/index.php", data, {headers: {'Content-Type': `multipart/form-data;`,}})
             .then(async (response) => {
                 if (response.data.response === true){
-                    const filesCopy = files.slice();
-                    filesCopy[id].convertLink = response.data.link;
-                    filesCopy[id].isConvert = true;
-                    filesCopy[id].isLoading = false;
-                    setFiles(filesCopy);
-                    await UpdateImageConvertStat(session);
+                    await UpdateHistory({historyId: response.data.historyId, session, name: file.name, downloadLink: response.data.link, softwareId: 0})
+                        .then(async () => {
+                            await UpdateImageConvertStat(session)
+                                .then(() => {
+                                    router.refresh();
+                                    const filesCopy = files.slice();
+                                    filesCopy[id].historyId = response.data.historyId;
+                                    filesCopy[id].convertLink = response.data.link;
+                                    filesCopy[id].isConvert = true;
+                                    filesCopy[id].isLoading = false;
+                                    setFiles(filesCopy);
+                                });
+                        });
                 }
                 else{
                     const filesCopy = files.slice();
@@ -79,6 +92,15 @@ export default function Converter({...props}){
                         },
                     })
                 }
+            });
+    }
+
+    const download = async (e, file) => {
+        console.log(file)
+        await UpdateHistoryDownloaded(file.historyId)
+            .then(() => {
+                e.target.disabled = true;
+                router.push(file.convertLink);
             });
     }
 
@@ -145,11 +167,11 @@ export default function Converter({...props}){
                                         <TableCell>
                                             {
                                                 file.convertLink ? <Button
-                                                        onClick={() => router.push(file.convertLink)}>Télécharger</Button>
+                                                        onClick={(e) => download(e, file)}>Télécharger</Button>
                                                     : <Button disabled={(file.isLoading || !file.ext)}
                                                               onClick={() => convertFile(file.id, file)}>{file.isLoading ? <>
                                                         <Loader2
-                                                            className={"w-4 mr-2"}/> Conversion</> : "Convertir"}</Button>
+                                                            className={"w-4 mr-2 animate-spin"}/> Conversion</> : "Convertir"}</Button>
                                             }
                                         </TableCell>
                                         <TableCell>
