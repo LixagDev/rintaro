@@ -5,11 +5,13 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion"
+import {useRouter} from "next-nprogress-bar";
 
 export default function YoutubeHelp(){
+    const router = useRouter();
     return(
         <Accordion type={"single"} collapsible className="w-2/3 backdrop-blur-sm rounded-xl p-2 border mr-auto ml-auto">
-            <AccordionItem value="item-1" className={"border-none"}>
+            <AccordionItem value="item-1" >
                 <AccordionTrigger>À propos de la sortie vidéo</AccordionTrigger>
                 <AccordionContent className={"flex flex-col"}>
                     <span className={"font-bold"}><u>Qualité :</u></span>
@@ -25,6 +27,13 @@ export default function YoutubeHelp(){
                     <span>h264 | h265 : Télécharge la vidéo avec la meilleur qualité possible encodé soit en h264 ou h265.</span>
                     <span className={"font-bold"}><u>Autre :</u></span>
                     <span>Audio : Télécharge l'audio de la vidéo avec la meilleur qualité son possible au format mp3.</span>
+                </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-2" className={"border-none"}>
+                <AccordionTrigger>À propos des téléchargements</AccordionTrigger>
+                <AccordionContent className={"flex flex-col"}>
+                    <span>Après le téléchargement de votre vidéo, elle sera automatiquement supprimée du serveur. Auquel cas ou, par inadvertance vous oublier de télécharger la vidéo, le lien de téléchargement sera dans votre <a
+                        onClick={() => router.push("/history")} className={"underline cursor-pointer"}>historique</a>.</span>
                 </AccordionContent>
             </AccordionItem>
         </Accordion>
