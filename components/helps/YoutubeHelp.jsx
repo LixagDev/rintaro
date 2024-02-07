@@ -32,7 +32,7 @@ export default function YoutubeHelp(){
             <AccordionItem value="item-2" className={"border-none"}>
                 <AccordionTrigger>À propos des téléchargements</AccordionTrigger>
                 <AccordionContent className={"flex flex-col"}>
-                    <span>Après le téléchargement de votre vidéo, elle sera automatiquement supprimée du serveur. Auquel cas ou, par inadvertance vous oublier de télécharger la vidéo, le lien de téléchargement sera dans votre <a
+                    <span>Après le téléchargement de votre vidéo, elle sera automatiquement supprimée du serveur. Auquel cas ou, par inadvertance vous oubliez de télécharger la vidéo, le lien de téléchargement sera dans votre <a
                         onClick={() => router.push("/history")} className={"underline cursor-pointer"}>historique</a>.</span>
                 </AccordionContent>
             </AccordionItem>
