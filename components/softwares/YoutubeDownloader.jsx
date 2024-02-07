@@ -43,8 +43,8 @@ export default function YoutubeDownloader({...props}){
                                     router.refresh();
                                     setState({loading: false, finish: true, response: response.data.response, downloadLink: response.data.link, historyId: response.data.historyId});
                                     Toast({title: "Vidéo convertie !", description: response.data.videoName})
-                                })
-                        })
+                                });
+                        });
                 }
                 else{
                     setState({loading: false, finish: true, response: response.data.response, downloadLink: null, historyId: null});
