@@ -56,7 +56,7 @@ export async function GetUserData(username){
 export async function GetUserHistory(session){
     const userHistory = await prisma.history.findMany({
         where:{
-            userId: session.user.id
+            userId: session.user.id,
         },
         orderBy:{
             created_at: "desc"
