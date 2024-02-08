@@ -4,7 +4,7 @@ import {init, GetUserHistory} from "@/functions/DataManager";
 import {redirect} from "next/navigation";
 import History from "@/components/pages/History";
 
-export default async function index({params}){
+export default async function index(){
     let session = await getServerSession(authOptions);
 
     if (session){
