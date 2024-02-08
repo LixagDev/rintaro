@@ -4,6 +4,7 @@ import {SoftwaresData} from "@/data/data";
 import SoftwareTitle from "@/components/softwares/SoftwareTitle";
 import LeftMenu from "@/components/navigation/LeftMenu";
 import Title from "@/components/navigation/Title";
+import ConvertHelp from "@/components/helps/ConvertHelp";
 
 export default function Convert({...props}){
     const session = props.session;
@@ -20,6 +21,7 @@ export default function Convert({...props}){
                 <div className={"h-full w-full p-4 flex flex-col gap-5"}>
                     <SoftwareTitle title={actualSoftwareName} description={actualSoftwareDescription}/>
                     <Converter session={session}/>
+                    <ConvertHelp />
                 </div>
             </div>
         </div>
