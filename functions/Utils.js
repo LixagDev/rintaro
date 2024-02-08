@@ -1,6 +1,6 @@
 import {toast} from "sonner";
 
- function ConvertTime(time){
+export function ConvertTime(time){
     const actualDate = new Date();
     const actualTimestamp = (actualDate.getTime()/1000).toFixed(0);
 
