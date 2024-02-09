@@ -6,7 +6,7 @@ import Profile from "@/components/pages/Profile";
 
 export default async function index({params}){
     let session = await getServerSession(authOptions);
-    const requestUsername = params.username;
+    const requestUsername = decodeURI(params.username);
 
     if (session){
         session = await init(session);
